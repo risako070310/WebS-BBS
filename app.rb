@@ -34,7 +34,7 @@ get '/edit/:id' do
 end
 
 post '/renew/:id' do
-    content = COntribution.find(params[:id])
+    content = Contribution.find(params[:id])
     content.update({
         name: params[:user_name],
         body: params[:body]
