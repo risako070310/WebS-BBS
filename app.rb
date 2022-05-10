@@ -6,7 +6,12 @@ require 'sinatra/json'
 require './models/contribution.rb'
 
 before do
-
+    Dotenv.load
+    Cloudinary.config do |config|
+        config.cloud_name = ENV['CLOUD_NAME']
+        config.api_key = ENV['CLOUDINARY_API_KEY']
+        config.api_secret = ENV['CLOUDINARY_API_SECRET']
+    end
 end
 
 get '/' do
@@ -15,9 +20,18 @@ get '/' do
 end
 
 post '/new' do
+    img_url = ''
+    if params[:file]
+        img = params[:file]
+        tempfile = img[:tempfile]
+        upload = Cloudinary::Uploader.upload(tempfile.path)
+        img_url = upload['url']
+    end
+    
     Contribution.create({
         name: params[:user_name],
-        body: params[:body]
+        body: params[:body],
+        img: img_url
     })
     
     redirect '/'
