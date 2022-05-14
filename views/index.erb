@@ -17,6 +17,10 @@
     <div>
       <p><%= content.name %></p>
       <p><%= content.body %></p>
+      <span><%= content.good %></span>
+      <form action="/good/<%= content.id %>" method="post">
+        <input type="submit" value="LIKE">
+      </form>
       <% unless content.img.empty? %>
       <p><img src="<%= content.img %>"></p>
       <% end %>

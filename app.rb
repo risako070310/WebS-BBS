@@ -31,7 +31,8 @@ post '/new' do
     Contribution.create({
         name: params[:user_name],
         body: params[:body],
-        img: img_url
+        img: img_url,
+        good: 0
     })
     
     redirect '/'
@@ -52,6 +53,15 @@ post '/renew/:id' do
     content.update({
         name: params[:user_name],
         body: params[:body]
+    })
+    redirect '/'
+end
+
+post '/good/:id' do
+    content = Contribution.find(params[:id])
+    good = content.good
+    content.update({
+        good: good + 1
     })
     redirect '/'
 end
