@@ -2,35 +2,51 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>掲示板</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <form action="/new" method="post" enctype="multipart/form-data">
-    <p>名前:<input type="text" name="user_name"></p>
-    <p>本文:<input type="text" name="body"></p>
-    <p><input type="file" name="file"></p>
-    <input type="submit" value="POST">
-  </form>
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+      <div class="card col-lg-6 m-5">
+        <div class="card-body">
+          <form action="/new" method="post" enctype="multipart/form-data">
+            <p>名前:<input type="text" name="user_name" class="from-control"></p>
+            <p>本文:<input type="text" name="body" class="form-control"></p>
+            <p><input type="file" name="file"></p>
+            <input type="submit" value="POST" class="btn btn-dark float-end">
+          </form>
+        </div>
+      </div>
   
-  <% @contents.each do |content| %>
-  <div>
-    <div>
-      <p><%= content.name %></p>
-      <p><%= content.body %></p>
-      <span><%= content.good %></span>
-      <form action="/good/<%= content.id %>" method="post">
-        <input type="submit" value="LIKE">
-      </form>
-      <% unless content.img.empty? %>
-      <p><img src="<%= content.img %>"></p>
+      <% @contents.each do |content| %>
+      <div class="card col-lg-6 mb-2 mx-5">
+        <div class="card-body">
+          <p><%= content.name %></p>
+          <p><%= content.body %></p>
+          <% unless content.img.empty? %>
+            <p><img src="<%= content.img %>" class="img-fluid rounded"></p>
+          <% end %>
+          <div class="d-flex justify-content-end align-items-center mt-3">
+            <span><%= content.good %></span>
+            <form action="/good/<%= content.id %>" method="post">
+              <input type="submit" value="LIKE" class="btn">
+            </form>
+            <form action="/delete/<%= content.id %>" method="post">
+              <input type="submit" value="DELETE" class="btn">
+            </form>
+            <a href="/edit/<%= content.id %>" class="btn">EDIT</a>
+          </div>
+        </div>
+      </div>
       <% end %>
-      <form action="/delete/<%= content.id %>" method="post">
-        <input type="submit" value="DELETE">
-      </form>
-      <a href="/edit/<%= content.id %>">EDIT</a>
     </div>
   </div>
-  <% end %>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>
